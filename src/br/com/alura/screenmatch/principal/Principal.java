@@ -1,3 +1,5 @@
+package br.com.alura.screenmatch.principal;
+
 import br.com.alura.screenmatch.calculos.CalculadoraDeTempo;
 import br.com.alura.screenmatch.calculos.FiltroRecomendacao;
 import br.com.alura.screenmatch.modelos.Episodio;
@@ -10,7 +12,7 @@ public class Principal {
     public static void main(String[] args) {
         Filme meuFilme = new Filme("O Poderoso Chefão", 1970);
         meuFilme.setDuracaoEmMinutos(180);
-
+        meuFilme.avalia(9);
         meuFilme.exibeFichaTecnica();
         meuFilme.avalia(8);
         meuFilme.avalia(5);
@@ -18,6 +20,7 @@ public class Principal {
 
         Filme outroFilme = new Filme("Avatar", 2023);
         outroFilme.setDuracaoEmMinutos(200);
+        outroFilme.avalia(6);
 
 
         System.out.println("Total de avaliações: " + meuFilme.getTotalAvaliacoes());
@@ -52,6 +55,7 @@ public class Principal {
 
         var filmeDoPaulo = new Filme("Dogville", 2003);
         //filmeDoPaulo.setNome("Dogville");
+        filmeDoPaulo.avalia(10);
         filmeDoPaulo.setDuracaoEmMinutos(200);
 
         ArrayList<Filme> listaDeFilmes = new ArrayList<>();
