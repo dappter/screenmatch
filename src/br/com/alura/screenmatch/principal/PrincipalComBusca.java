@@ -12,7 +12,7 @@ public class PrincipalComBusca {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite o filme que quer buscar: ");
         var busca = scanner.nextLine();
-        var endereco = "https://www.omdbapi.com/?t=" + busca + "&apikey=b32ab834";
+        var endereco = "https://www.omdbapi.com/?t=" + busca + "&apikey=";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
