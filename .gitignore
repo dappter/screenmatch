@@ -24,7 +24,7 @@ bin/
 
 ### VS Code ###
 .vscode/
-.env
+src/.env
 
 ### Mac OS ###
 .DS_Store
