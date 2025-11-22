@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: screenmatch-api
+    env: java
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/screenmatch-1.0.0.jar
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
