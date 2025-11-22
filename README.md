@@ -173,9 +173,9 @@ src/main/java/br/com/alura/screenmatch/
 1. Conecte repositório GitHub
 2. Configure variáveis:
 ```env
-DATABASE_URL=jdbc:postgresql://db.bioyetppjxufyujylwuf.supabase.co:5432/postgres
+DATABASE_URL=jdbc:postgresql://seu-projeto.supabase.co:5432/postgres
 DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=Mamabibijg09!
+DATABASE_PASSWORD=sua_senha_aqui
 ```
 
 3. Build: `./mvnw clean package -DskipTests`
