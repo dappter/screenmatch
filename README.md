@@ -185,5 +185,5 @@ src/main/java/br/com/alura/screenmatch/
 
 ---
 
-**Desenvolvido para:** Alura - Backend Challenge  
+**Desenvolvido para:** Alura - Backend Challenge e Atividade Complementar da faculdade 
 **Data:** Novembro 2025
