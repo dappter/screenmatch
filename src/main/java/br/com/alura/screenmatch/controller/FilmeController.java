@@ -2,6 +2,7 @@ package br.com.alura.screenmatch.controller;
 
 import br.com.alura.screenmatch.dto.FilmeDTO;
 import br.com.alura.screenmatch.service.FilmeService;
+import br.com.alura.screenmatch.service.OmdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class FilmeController {
 
     @Autowired
     private FilmeService service;
+
+    @Autowired
+    private OmdbService omdbService;
 
     @GetMapping
     public ResponseEntity<List<FilmeDTO>> listarTodos() {
@@ -73,5 +77,30 @@ public class FilmeController {
     @GetMapping("/buscar/ano/{ano}")
     public ResponseEntity<List<FilmeDTO>> buscarPorAno(@PathVariable Integer ano) {
         return ResponseEntity.ok(service.buscarPorAno(ano));
+    }
+
+    @PostMapping("/omdb/{titulo}")
+    public ResponseEntity<FilmeDTO> buscarEAdicionarOmdb(@PathVariable String titulo) {
+        try {
+            OmdbService.FilmeOmdbDTO filmeOmdb = omdbService.buscarFilme(titulo);
+            
+            if (filmeOmdb == null) {
+                throw new RuntimeException("Filme não encontrado na OMDb: " + titulo);
+            }
+            
+            FilmeDTO dto = new FilmeDTO();
+            dto.setTitulo(filmeOmdb.getTitle());
+            dto.setAno(Integer.parseInt(filmeOmdb.getYear()));
+            dto.setDiretor(filmeOmdb.getDirector());
+            dto.setGenero(filmeOmdb.getGenre().split(",")[0].trim());
+            
+            FilmeDTO criado = service.criar(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Erro ao processar ano do filme");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao buscar filme na OMDb: " + e.getMessage());
+        }
     }
 }
