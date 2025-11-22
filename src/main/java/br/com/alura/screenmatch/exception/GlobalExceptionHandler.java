@@ -63,7 +63,6 @@ public class GlobalExceptionHandler {
     }
 
     public static class ErrorResponse {
-    public static class ErrorResponse {
         private int status;
         private String message;
         private LocalDateTime timestamp;
