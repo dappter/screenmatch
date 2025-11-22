@@ -41,6 +41,48 @@ API REST desenvolvida em **Java 17** com **Spring Boot 3.2.0** para gerenciar ca
 https://scrennmatch-api.onrender.com/api/filmes
 ```
 
+### **🌟 NOVO! Adicionar Filme da OMDb (Modo Interativo)**
+
+**Opção 1: Script PowerShell Interativo**
+
+```powershell
+# Execute o script
+.\adicionar-filme.ps1
+```
+
+O script vai perguntar: **"Escreva o nome do filme que quer adicionar:"**
+
+Digite o nome (em inglês) e pressione Enter. Exemplos:
+- `Matrix`
+- `Inception`
+- `The Godfather`
+- `Titanic`
+
+**Opção 2: Comando Direto**
+
+```powershell
+# Adicionar Matrix
+Invoke-RestMethod -Method POST -Uri "https://scrennmatch-api.onrender.com/api/filmes/omdb/Matrix"
+
+# Adicionar Inception
+Invoke-RestMethod -Method POST -Uri "https://scrennmatch-api.onrender.com/api/filmes/omdb/Inception"
+```
+
+**Resposta:**
+```json
+{
+  "id": 1,
+  "titulo": "The Matrix",
+  "ano": 1999,
+  "diretor": "Lana Wachowski, Lilly Wachowski",
+  "genero": "Action"
+}
+```
+
+> 💡 **Dica:** Use nomes em inglês para melhores resultados na OMDb!
+
+---
+
 ### **1️⃣ Listar Todos os Filmes (GET)**
 
 Acesse no navegador ou use:
@@ -51,7 +93,15 @@ curl https://scrennmatch-api.onrender.com/api/filmes -UseBasicParsing
 
 **Resposta 200:**
 ```json
-[]
+[
+  {
+    "id": 1,
+    "titulo": "The Matrix",
+    "ano": 1999,
+    "diretor": "Lana Wachowski, Lilly Wachowski",
+    "genero": "Action"
+  }
+]
 ```
 
 ### **2️⃣ Criar um Filme (POST)**
@@ -129,7 +179,8 @@ src/main/java/br/com/alura/screenmatch/
 ├── controller/
 │   └── FilmeController.java          # Endpoints REST
 ├── service/
-│   └── FilmeService.java             # Lógica de negócio
+│   ├── FilmeService.java             # Lógica de negócio
+│   └── OmdbService.java              # Integração com OMDb API
 ├── repository/
 │   └── FilmeRepository.java          # Acesso ao banco
 ├── model/
@@ -139,6 +190,10 @@ src/main/java/br/com/alura/screenmatch/
 └── exception/
     ├── ResourceNotFoundException.java
     └── GlobalExceptionHandler.java   # Tratamento de erros
+
+Arquivos auxiliares:
+├── adicionar-filme.ps1               # Script interativo para adicionar filmes
+└── README.md                         # Documentação
 ```
 
 ---
@@ -149,7 +204,8 @@ src/main/java/br/com/alura/screenmatch/
 |--------|----------|-----------|
 | GET | `/api/filmes` | Lista todos os filmes |
 | GET | `/api/filmes/{id}` | Busca filme por ID |
-| POST | `/api/filmes` | Cria novo filme |
+| POST | `/api/filmes` | Cria novo filme manualmente |
+| **POST** | **`/api/filmes/omdb/{titulo}`** | **🌟 Busca e adiciona filme da OMDb** |
 | PUT | `/api/filmes/{id}` | Atualiza filme |
 | DELETE | `/api/filmes/{id}` | Deleta filme |
 | GET | `/api/filmes/buscar/titulo/{titulo}` | Busca por título |
@@ -162,7 +218,8 @@ src/main/java/br/com/alura/screenmatch/
 
 - **Banco H2:** Os dados são armazenados em memória e são perdidos quando a aplicação reinicia
 - **Primeira requisição:** No Render pode demorar ~30 segundos (aplicação gratuita "acorda")
-- **Acentuação:** Evite caracteres especiais (ã, ç, í) nos dados para melhor compatibilidade
+- **OMDb API:** Integração com base de dados de filmes para adicionar automaticamente
+- **Nomes em inglês:** Use títulos originais para melhores resultados na busca OMDb
 
 ---
 
@@ -172,6 +229,8 @@ src/main/java/br/com/alura/screenmatch/
 - ✅ Código organizado em camadas
 - ✅ Tratamento de erros
 - ✅ Retornos JSON com códigos HTTP corretos
+- ✅ Integração com API OMDb
+- ✅ Script interativo para adicionar filmes
 - ✅ Deploy no Render funcionando
 - ✅ Repositório GitHub público
 - ✅ Documentação completa
