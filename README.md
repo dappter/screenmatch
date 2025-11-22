@@ -1,27 +1,25 @@
 # 🎬 ScreenMatch API
 
-API REST para gerenciamento de filmes com CRUD completo, integrada com Supabase (PostgreSQL).
+API REST para gerenciamento de filmes com CRUD completo.
 
-## 🚀 Link da API Publicada no Render
+## 🚀 API em Produção
 
-**🌐 https://screenmatch-api.onrender.com/api/filmes**
+**🌐 https://scrennmatch-api.onrender.com/api/filmes**
 
-> ⚠️ Atualize com o link real após deploy
+> ✅ API funcionando no Render com banco H2 em memória
 
 ---
 
 ## 📋 Sobre o Projeto
 
-API REST desenvolvida em **Java 17** com **Spring Boot 3.2.0** para gerenciar catálogo de filmes. Atende todos os requisitos:
+API REST desenvolvida em **Java 17** com **Spring Boot 3.2.0** para gerenciar catálogo de filmes.
 
 ✅ **CRUD Completo** - Listar, Buscar, Criar, Atualizar, Deletar  
 ✅ **Organização** - Código em camadas (Controller → Service → Repository → Model)  
-✅ **Validações** - Tratamento de erros com mensagens claras  
-✅ **JSON/HTTP** - Retornos corretos (200, 201, 204, 404, 500)  
-✅ **Supabase** - PostgreSQL integrado  
-✅ **Deploy Render** - Pronto para produção  
-✅ **GitHub** - Repositório com commits organizados  
-✅ **Documentação** - README completo  
+✅ **Tratamento de Erros** - Mensagens claras e códigos HTTP corretos  
+✅ **Deploy Render** - Aplicação online e funcionando  
+✅ **GitHub** - Repositório público com commits organizados  
+✅ **Documentação** - README completo com exemplos  
 
 ---
 
@@ -29,124 +27,101 @@ API REST desenvolvida em **Java 17** com **Spring Boot 3.2.0** para gerenciar ca
 
 - ☕ Java 17
 - 🍃 Spring Boot 3.2.0
-- 🗄️ PostgreSQL (Supabase)
+- 🗄️ H2 Database (em memória)
+- 🐳 Docker
 - 📦 Maven
 - 🚀 Render
 
 ---
 
-## 🚀 Como Rodar Localmente
+## 📍 Como Usar a API
+
+### **Base URL**
+```
+https://scrennmatch-api.onrender.com/api/filmes
+```
+
+### **1️⃣ Listar Todos os Filmes (GET)**
+
+Acesse no navegador ou use:
 
 ```powershell
-# 1. Clone
-git clone https://github.com/dappter/screenmatch.git
-cd screenmatch
-
-# 2. Execute (Windows com H2 em memória)
-$env:JAVA_HOME = "C:\Program Files\Java\jdk-17"
-$env:SPRING_PROFILES_ACTIVE = "local"
-.\mvnw.cmd spring-boot:run
-
-# 3. Acesse
-# http://localhost:8080/api/filmes
+curl https://scrennmatch-api.onrender.com/api/filmes -UseBasicParsing
 ```
 
----
-
-## 📍 Endpoints
-
-**Base:** `http://localhost:8080/api/filmes`
-
-### 1️⃣ **GET** `/api/filmes` - Listar Todos
+**Resposta 200:**
 ```json
-[
-  {
-    "id": 1,
-    "titulo": "Matrix",
-    "ano": 1999,
-    "diretor": "Wachowski",
-    "genero": "Ficção Científica"
-  }
-]
+[]
 ```
 
-### 2️⃣ **GET** `/api/filmes/{id}` - Buscar por ID
+### **2️⃣ Criar um Filme (POST)**
+
+```powershell
+$json = '{"titulo":"Matrix","ano":1999,"diretor":"Wachowski","genero":"Ficcao Cientifica"}'
+Invoke-RestMethod -Method POST -Uri "https://scrennmatch-api.onrender.com/api/filmes" -Body $json -ContentType "application/json; charset=utf-8"
+```
+
+**Resposta 201:**
 ```json
 {
   "id": 1,
   "titulo": "Matrix",
   "ano": 1999,
   "diretor": "Wachowski",
-  "genero": "Ficção Científica"
+  "genero": "Ficcao Cientifica"
 }
 ```
 
-### 3️⃣ **POST** `/api/filmes` - Criar
+### **3️⃣ Buscar Filme por ID (GET)**
+
 ```powershell
-$json = '{"titulo":"Inception","ano":2010,"diretor":"Nolan","genero":"Ficção"}'
-Invoke-RestMethod -Method POST -Uri "http://localhost:8080/api/filmes" `
-  -Body $json -ContentType "application/json"
+curl https://scrennmatch-api.onrender.com/api/filmes/1 -UseBasicParsing
 ```
 
-**Resposta 201:**
+**Resposta 200:**
 ```json
 {
-  "id": 2,
-  "titulo": "Inception",
-  "ano": 2010,
-  "diretor": "Nolan",
-  "genero": "Ficção"
+  "id": 1,
+  "titulo": "Matrix",
+  "ano": 1999,
+  "diretor": "Wachowski",
+  "genero": "Ficcao Cientifica"
 }
 ```
 
-### 4️⃣ **PUT** `/api/filmes/{id}` - Atualizar
+### **4️⃣ Atualizar Filme (PUT)**
+
 ```powershell
-$json = '{"titulo":"Matrix Reloaded","ano":2003,"diretor":"Wachowski","genero":"Ação"}'
-Invoke-RestMethod -Method PUT -Uri "http://localhost:8080/api/filmes/1" `
-  -Body $json -ContentType "application/json"
+$json = '{"titulo":"Matrix Reloaded","ano":2003,"diretor":"Wachowski","genero":"Acao"}'
+Invoke-RestMethod -Method PUT -Uri "https://scrennmatch-api.onrender.com/api/filmes/1" -Body $json -ContentType "application/json; charset=utf-8"
 ```
 
-### 5️⃣ **DELETE** `/api/filmes/{id}` - Deletar
+### **5️⃣ Deletar Filme (DELETE)**
+
 ```powershell
-curl -Method DELETE "http://localhost:8080/api/filmes/1" -UseBasicParsing
+Invoke-RestMethod -Method DELETE -Uri "https://scrennmatch-api.onrender.com/api/filmes/1"
 ```
+
 **Resposta:** 204 No Content
 
-### 6️⃣ **GET** `/api/filmes/buscar/titulo/{titulo}`
-### 7️⃣ **GET** `/api/filmes/buscar/genero/{genero}`  
-### 8️⃣ **GET** `/api/filmes/buscar/ano/{ano}`
-
 ---
 
-## 📝 Exemplos de Uso
+## 🚀 Como Rodar Localmente
 
 ```powershell
-# Listar
-curl http://localhost:8080/api/filmes -UseBasicParsing
+# 1. Clone o repositório
+git clone https://github.com/dappter/screenmatch.git
+cd screenmatch
 
-# Criar
-$json = '{"titulo":"Matrix","ano":1999}'
-Invoke-RestMethod -Method POST -Uri "http://localhost:8080/api/filmes" `
-  -Body $json -ContentType "application/json"
+# 2. Execute com Maven Wrapper
+.\mvnw.cmd spring-boot:run
 
-# Buscar por ID
-curl http://localhost:8080/api/filmes/1 -UseBasicParsing
-
-# Atualizar
-$json = '{"titulo":"Matrix 2","ano":2003}'
-Invoke-RestMethod -Method PUT -Uri "http://localhost:8080/api/filmes/1" `
-  -Body $json -ContentType "application/json"
-
-# Deletar
-curl -Method DELETE "http://localhost:8080/api/filmes/1" -UseBasicParsing
-
-# Buscar por título
-curl http://localhost:8080/api/filmes/buscar/titulo/matrix -UseBasicParsing
+# 3. Acesse
+# http://localhost:8080/api/filmes
 ```
-
 ---
 
-## 🗂️ Estrutura
+## 🗂️ Estrutura do Projeto
 
 ```
 src/main/java/br/com/alura/screenmatch/
@@ -154,45 +129,59 @@ src/main/java/br/com/alura/screenmatch/
 ├── controller/
 │   └── FilmeController.java          # Endpoints REST
 ├── service/
-│   └── FilmeService.java             # Lógica
+│   └── FilmeService.java             # Lógica de negócio
 ├── repository/
-│   └── FilmeRepository.java          # BD
+│   └── FilmeRepository.java          # Acesso ao banco
 ├── model/
-│   └── Filme.java                    # Entidade
+│   └── Filme.java                    # Entidade JPA
 ├── dto/
-│   └── FilmeDTO.java                 # Transfer Object
+│   └── FilmeDTO.java                 # Data Transfer Object
 └── exception/
     ├── ResourceNotFoundException.java
-    └── GlobalExceptionHandler.java   # Erros
+    └── GlobalExceptionHandler.java   # Tratamento de erros
 ```
 
 ---
 
-## 🚀 Deploy no Render
+## 📊 Endpoints Disponíveis
 
-1. Conecte repositório GitHub
-2. Configure variáveis:
-```env
-DATABASE_URL=jdbc:postgresql://seu-projeto.supabase.co:5432/postgres
-DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=sua_senha_aqui
-```
-
-3. Build: `./mvnw clean package -DskipTests`
-4. Start: `java -jar target/screenmatch-1.0.0.jar`
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/filmes` | Lista todos os filmes |
+| GET | `/api/filmes/{id}` | Busca filme por ID |
+| POST | `/api/filmes` | Cria novo filme |
+| PUT | `/api/filmes/{id}` | Atualiza filme |
+| DELETE | `/api/filmes/{id}` | Deleta filme |
+| GET | `/api/filmes/buscar/titulo/{titulo}` | Busca por título |
+| GET | `/api/filmes/buscar/genero/{genero}` | Busca por gênero |
+| GET | `/api/filmes/buscar/ano/{ano}` | Busca por ano |
 
 ---
 
-## ✅ Status
+## ⚠️ Observações Importantes
 
-| Endpoint | Status |
-|----------|--------|
-| GET /api/filmes | ✅ Funcionando |
-| GET /api/filmes/{id} | ✅ Funcionando |
-| POST /api/filmes | ✅ Funcionando |
-| PUT /api/filmes/{id} | ✅ Funcionando |
-| DELETE /api/filmes/{id} | ✅ Funcionando |
-| Buscas | ✅ Funcionando |
+- **Banco H2:** Os dados são armazenados em memória e são perdidos quando a aplicação reinicia
+- **Primeira requisição:** No Render pode demorar ~30 segundos (aplicação gratuita "acorda")
+- **Acentuação:** Evite caracteres especiais (ã, ç, í) nos dados para melhor compatibilidade
+
+---
+
+## ✅ Checklist do Projeto
+
+- ✅ CRUD completo implementado
+- ✅ Código organizado em camadas
+- ✅ Tratamento de erros
+- ✅ Retornos JSON com códigos HTTP corretos
+- ✅ Deploy no Render funcionando
+- ✅ Repositório GitHub público
+- ✅ Documentação completa
+
+---
+
+## 🔗 Links
+
+- **API Online:** https://scrennmatch-api.onrender.com/api/filmes
+- **GitHub:** https://github.com/dappter/screenmatch
 
 ---
 
