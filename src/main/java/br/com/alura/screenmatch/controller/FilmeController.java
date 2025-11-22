@@ -19,18 +19,34 @@ public class FilmeController {
 
     @GetMapping
     public ResponseEntity<List<FilmeDTO>> listarTodos() {
-        return ResponseEntity.ok(service.listarTodos());
+        try {
+            return ResponseEntity.ok(service.listarTodos());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FilmeDTO> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscarPorId(id));
+        try {
+            return ResponseEntity.ok(service.buscarPorId(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @PostMapping
     public ResponseEntity<FilmeDTO> criar(@RequestBody FilmeDTO dto) {
-        FilmeDTO criado = service.criar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+        try {
+            System.out.println("Recebendo POST: " + dto);
+            FilmeDTO criado = service.criar(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @PutMapping("/{id}")
